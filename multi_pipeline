@@ -1,0 +1,99 @@
+pipeline
+{
+	agent any
+	stages
+	{
+		stage('Continuous Download_Loan') 
+		{
+			steps
+			{
+				script
+				{
+					try
+					{
+						git 'https://github.com/ArkLearnersEdge/maven.git'
+					}
+					catch(Exception e1)
+					{
+						mail bcc: '', body: 'stage continuous download', cc: 'manageer@gmail.com,', from: '', replyTo: '', subject: 'failed CI-CD processes ', to: 'gitAdmin@gmail.com'
+						exit(1)
+					}
+				}
+			}
+			
+		}
+		stage('Continuous Build_Loan') 
+		{
+			steps
+			{
+				script
+				{
+					try
+					{
+						sh 'mvn package'
+					}
+					catch(Exception e2)
+					{
+						mail bcc: '', body: 'stage continuous build', cc: 'manageer@gmail.com,', from: '', replyTo: '', subject: 'failed CI-CD processes ', to: 'developer@gmail.com'
+						exit(1)
+					}
+				}
+			}
+		}
+		stage('continuous deploy_Loan') 
+		{
+			steps
+			{
+				script
+				{
+					try
+					{
+						sh 'scp /home/ubuntu/.jenkins/workspace/des-pipeline/webapp/target/webapp.war ubuntu@172.31.92.167:/var/lib/tomcat8/webapps/testapp'
+					}
+					catch(Exception e3)
+					{
+						mail bcc: '', body: 'deploy failure', cc: 'test@gmail.com', from: '', replyTo: '', subject: 'continuous deploy', to: 'developer@gmail.com'
+						exit(1)
+					}
+				}
+			}
+		}
+		stage('continuous testing_Loan') 
+		{
+			steps
+			{
+				script
+				{
+					try
+					{
+						git 'https://github.com/ArkLearnersEdge/FunctionalTesting.git'
+						 sh 'java -jar /home/ubuntu/.jenkins/workspace/des-pipeline/testing.jar'
+					}
+					catch(Exception e4)
+					{
+						mail bcc: '', body: 'test failure', cc: 'developer@gmail.com', from: '', replyTo: '', subject: 'continuous testing', to: 'test@gmail.com'
+						exit(4)
+					}
+				}
+			}
+		}
+        stage('continuous production_Loan') 
+		{
+			steps
+			{
+				script
+				{
+					try
+					{
+						sh 'scp /home/ubuntu/.jenkins/workspace/des-pipeline/webapp/target/webapp.war ubuntu@172.31.86.7:/var/lib/tomcat8/webapps/prodapp'
+					}
+					catch(Exception e5)
+					{
+				        mail bcc: '', body: 'production failure', cc: 'developer@gmail.com', from: '', replyTo: '', subject: 'continuous production', to: 'production@gmail.com'
+						exit(5)
+					}
+				}
+			}
+		}
+	}
+}
