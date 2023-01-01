@@ -40,7 +40,7 @@ pipeline
 				}
 			}
 		}
-		stage('continuous deploy_Loan-one') 
+		stage('continuous deploy_Loan') 
 		{
 			steps
 			{
@@ -58,7 +58,7 @@ pipeline
 				}
 			}
 		}
-		stage('continuous testing_Loan-two') 
+		stage('continuous testing_Loan') 
 		{
 			steps
 			{
@@ -77,7 +77,7 @@ pipeline
 				}
 			}
 		}
-        stage('continuous production_Loan-three') 
+        stage('continuous production_Loan') 
 		{
 			steps
 			{
