@@ -58,7 +58,7 @@ pipeline
 				}
 			}
 		}
-		stage('continuous testing_Loan') 
+		stage('continuous testing_Loan')
 		{
 			steps
 			{
@@ -77,7 +77,7 @@ pipeline
 				}
 			}
 		}
-        stage('continuous production_Loan') 
+        stage('continuous production_master')
 		{
 			steps
 			{
